@@ -114,21 +114,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: 100
-  pistolDamage: 50
+  pistolDamage: 10
   pistolBullets: 10
   pistolShotFrequency: 0.01
   pistolShotRange: 20
   pistolBulletMovementSpeed: 40
   pistolReloadingTime: 1
-  minigunDamage: 50
-  minigunBullets: 10
+  minigunDamage: 20
+  minigunBullets: 30
   minigunShotFrequency: 0.1
   minigunShotRange: 20
   minigunBulletMovementSpeed: 40
-  minigunReloadingTime: 1
+  minigunReloadingTime: 2
   granadeDamage: 0
   granadeThrowRange: 0
-  playerCoins: 0
+  playerCoins: 200
 --- !u!114 &114573001450092108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy1: {fileID: 1649415020853244, guid: 0c79ff8962dc96744aa94190d739e0d9, type: 2}
   enemy2: {fileID: 1577468818235260, guid: e87f8dd0cfd874d4a900fb6f35ad9703, type: 2}
-  spawnTime: 0.2
 --- !u!135 &135580067312764496
 SphereCollider:
   m_ObjectHideFlags: 1
