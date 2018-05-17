@@ -24,7 +24,7 @@ public class PlayerShooting : MonoBehaviour
     {
         player = GameObject.Find("Player");
         text = GameObject.Find("BulletCount");
-        reloadingText = GameObject.Find("ReloadingText");
+        reloadingText = GameObject.Find("InGameCanvas/ReloadingText");
         reloadingText.SetActive(true);
         pistolValues = player.GetComponent<PlayerValues>().GetPistolValues();
         minigunValues = player.GetComponent<PlayerValues>().GetMinigunValues();
@@ -85,6 +85,7 @@ public class PlayerShooting : MonoBehaviour
                 if (minigunReloadingTimer > minigunReloadingTime)
                 {
                     reloadingText.GetComponent<TextEdit>().changeText("");
+                    minigunValues = player.GetComponent<PlayerValues>().GetMinigunValues();
                     minigunBullets = (int)minigunValues[4];
                     text.GetComponent<TextEdit>().changeText(minigunBullets.ToString());
                     minigunReloadingTimer = 0.0f;
@@ -101,6 +102,7 @@ public class PlayerShooting : MonoBehaviour
             if (pistolReloadingTimer > pistolReloadingTime)
             {
                 reloadingText.GetComponent<TextEdit>().changeText("");
+                pistolValues = player.GetComponent<PlayerValues>().GetPistolValues();
                 pistolBullets = (int)pistolValues[4];
                 text.GetComponent<TextEdit>().changeText(pistolBullets.ToString());
                 pistolReloading = false;

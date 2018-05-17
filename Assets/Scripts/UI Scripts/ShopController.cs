@@ -16,7 +16,6 @@ public class ShopController : MonoBehaviour {
     private GameObject pistolDamageHover, pistolBulletsHover, pistolReloadingHover;
     private GameObject minigunDamageHover, minigunBulletsHover, minigunReloadingHover;
 
-    // Use this for initialization
     void Start () {
         pistolParent = GameObject.Find("PistolUpgrade");
         minigunParent = GameObject.Find("MinigunUpgrade");
@@ -29,18 +28,9 @@ public class ShopController : MonoBehaviour {
         minigunBulletsHover = GameObject.Find("MinigunUpgrade/Background/BulletUpgradeHover");
         minigunReloadingHover = GameObject.Find("MinigunUpgrade/Background/ReloadingUpgradeHover");
 
-        GameObject weaponChoose = GameObject.Find("ChooseWeapon");
-        weaponChoose.SetActive(false);
-        print(weaponChoose.activeSelf);
-
         UpdateValues();
-        UpdateCoinsValue(0);
         SetHovers();
-    }
-
-    public void UpdateCoinsValue(int addCoins)
-    {
-        GameObject.Find("Coins").GetComponent<Text>().text = "$ " + (playerVal.playerCoins + addCoins).ToString();
+        playerVal.UpdateCoinsValue(0);
     }
 
     public void UpdateValues()
@@ -76,6 +66,7 @@ public class ShopController : MonoBehaviour {
         minigunParent.transform.Find("Background/ReloadingUpgrade/ActualReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)playerVal.minigunReloadingTime, 1).ToString() + "s";
         minigunParent.transform.Find("Background/ReloadingUpgrade/UpgradedReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)(playerVal.minigunReloadingTime - 0.1f), 1).ToString() + "s";
         minigunParent.transform.Find("Background/ReloadingUpgrade/ReloadingUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunReloadingUpgradeCost.ToString();
+        print("Values Updated");
     }
 
     private void SetHovers()
@@ -88,14 +79,8 @@ public class ShopController : MonoBehaviour {
         x = (actualMinigunDamageUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunDamageHover, true) : SetHoverActive(minigunDamageHover, false);
         x = (actualMinigunBulletsUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunBulletsHover, true) : SetHoverActive(minigunBulletsHover, false);
         x = (actualMinigunReloadingUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunReloadingHover, true) : SetHoverActive(minigunReloadingHover, false);
-
-        if (pistolDamageHover.activeSelf)
-        {
-            print("NO JEST");
-        } else
-        {
-            print("NO NIE JEST");
-        }
+        print(x);
+        print("Hovers Set");
     }
 
     private float SetHoverActive(GameObject hover, bool state)
@@ -108,11 +93,11 @@ public class ShopController : MonoBehaviour {
     {
         if (!pistolDamageHover.activeSelf)
         {
-            playerVal.pistolDamage += 15;
+            playerVal.UpdateValues("pistolDamage", 15);
             playerVal.playerCoins -= actualPistolDamageUpgradeCost;
             timesPistolDamageUpgraded += 1;
             UpdateValues();
-            UpdateCoinsValue(0);
+            playerVal.UpdateCoinsValue(0);
             SetHovers();
         }
     }
@@ -121,11 +106,11 @@ public class ShopController : MonoBehaviour {
     {
         if (!pistolBulletsHover.activeSelf)
         {
-            playerVal.pistolBullets += 1;
+            playerVal.UpdateValues("pistolBullets", 1);
             playerVal.playerCoins -= actualPistolBulletsUpgradeCost;
             timesPistolBulletsUpgraded += 1;
             UpdateValues();
-            UpdateCoinsValue(0);
+            playerVal.UpdateCoinsValue(0);
             SetHovers();
         }
     }
@@ -134,11 +119,11 @@ public class ShopController : MonoBehaviour {
     {
         if (!pistolReloadingHover.activeSelf)
         {
-            playerVal.pistolReloadingTime -= 0.1f;
+            playerVal.UpdateValues("pistolReloadingTime", 0.1f);
             playerVal.playerCoins -= actualPistolReloadingUpgradeCost;
             timesPistolReloadingUpgraded += 1;
             UpdateValues();
-            UpdateCoinsValue(0);
+            playerVal.UpdateCoinsValue(0);
             SetHovers();
         }
     }
@@ -147,11 +132,11 @@ public class ShopController : MonoBehaviour {
     {
         if (!minigunDamageHover.activeSelf)
         {
-            playerVal.minigunDamage += 20;
+            playerVal.UpdateValues("minigunDamage", 20);
             playerVal.playerCoins -= actualMinigunDamageUpgradeCost;
             timesMinigunDamageUpgraded += 1;
             UpdateValues();
-            UpdateCoinsValue(0);
+            playerVal.UpdateCoinsValue(0);
             SetHovers();
         }
     }
@@ -160,11 +145,11 @@ public class ShopController : MonoBehaviour {
     {
         if (!minigunBulletsHover.activeSelf)
         {
-            playerVal.minigunBullets += 2;
+            playerVal.UpdateValues("minigunBullets", 2);
             playerVal.playerCoins -= actualMinigunBulletsUpgradeCost;
             timesMinigunBulletsUpgraded += 1;
             UpdateValues();
-            UpdateCoinsValue(0);
+            playerVal.UpdateCoinsValue(0);
             SetHovers();
         }
     }
@@ -173,11 +158,11 @@ public class ShopController : MonoBehaviour {
     {
         if (!minigunReloadingHover.activeSelf)
         {
-            playerVal.minigunReloadingTime -= 0.1f;
+            playerVal.UpdateValues("minigunReloadingTime", 0.1f);
             playerVal.playerCoins -= actualMinigunReloadingUpgradeCost;
             timesMinigunReloadingUpgraded += 1;
             UpdateValues();
-            UpdateCoinsValue(0);
+            playerVal.UpdateCoinsValue(0);
             SetHovers();
         }
     }

@@ -11,7 +11,7 @@ public class Throw : MonoBehaviour {
 
     private void Start()
     {
-        originalDistance = calculateDistance(destination, originalPlayerPosition);
+        //originalDistance = calculateDistance(destination, originalPlayerPosition);
         //print("ORIGINAL DISTANCE: " + originalDistance);
 
         transform.forward = new Vector3(transform.forward.x, transform.forward.y + 5f, transform.forward.z);

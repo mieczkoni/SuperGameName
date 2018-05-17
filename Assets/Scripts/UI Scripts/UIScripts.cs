@@ -7,8 +7,14 @@ public class UIScripts : MonoBehaviour {
 
     private GameObject weaponEnd;
     public string weaponID;
-    public Sprite pistol, minigun, empty;
-    
+    public Sprite pistol, minigun;
+    private CanvasController controller;
+
+    public void Start()
+    {
+        controller = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
+    }
+
     public void SetPistol()
     {
         weaponEnd = GameObject.Find("WeaponEnd");
@@ -17,7 +23,7 @@ public class UIScripts : MonoBehaviour {
         GameObject.Find(weaponID).GetComponent<Image>().sprite = pistol;
         GameObject.Find(weaponID).GetComponent<WeaponsController>().weaponName = "Pistol";
         GameObject.Find("ChoosePistol").SetActive(false);
-        GameObject.Find("ChooseWeapon").SetActive(false);
+        controller.HideWeaponChooseCanvas();
     }
 
     public void SetMinigun()
@@ -28,11 +34,6 @@ public class UIScripts : MonoBehaviour {
         GameObject.Find(weaponID).GetComponent<Image>().sprite = minigun;
         GameObject.Find(weaponID).GetComponent<WeaponsController>().weaponName = "Minigun";
         GameObject.Find("ChooseMinigun").SetActive(false);
-        GameObject.Find("ChooseWeapon").SetActive(false);
-    }
-
-    public void WeaponChooseExit()
-    {
-        GameObject.Find("ChooseWeapon").SetActive(false);
+        controller.HideWeaponChooseCanvas();
     }
 }

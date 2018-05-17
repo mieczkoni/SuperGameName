@@ -18,6 +18,7 @@ public class EnemyHealth : MonoBehaviour {
         if (health <= 0)
         {
             Destroy(this.gameObject);
+            GameObject.Find("Player").GetComponent<PlayerValues>().UpdateCoinsValue(15);
         }
     }
 

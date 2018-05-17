@@ -5,21 +5,24 @@ using UnityEngine.UI;
 
 public class WeaponsController : MonoBehaviour {
 
-    private GameObject weaponChoose, weaponsBckg, hideContent, weaponEnd;
+    private GameObject weaponChoose, weaponsBckg, startCanvas, weaponEnd, gameOverCanvas;
+    private CanvasController controller;
     public string weaponName;
 
     public void Start()
     {
+        controller = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
         weaponChoose = GameObject.Find("ChooseWeapon");
         weaponsBckg = GameObject.Find("WeaponsBackground");
-        hideContent = GameObject.Find("ContentToHideInGame");
+        startCanvas = GameObject.Find("StartCanvas");
+        gameOverCanvas = GameObject.Find("GameOverCanvas");
         weaponEnd = GameObject.Find("WeaponEnd");
     }
 
     public void OnButtonClick()
     {
-        if (hideContent.activeSelf) {
-            weaponChoose.SetActive(true);
+        if (startCanvas.GetComponent<Canvas>().enabled == true|| gameOverCanvas.GetComponent<Canvas>().enabled == true) {
+            controller.ShowWeaponChooseCanvas();
             weaponsBckg.GetComponent<UIScripts>().weaponID = transform.name;
         } else
         {
