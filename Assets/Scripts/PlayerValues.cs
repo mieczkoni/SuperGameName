@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerValues : MonoBehaviour {
 
-    public int playerHealth;
+    public float playerHealth;
+    public float playerSpeed;
+
+    public string[] playerWeapons = { "Pistol", "Minigun" };
+    public string mainWeapon = "Pistol", secondWeapon, thirdWeapon;
 
     public int pistolDamage;
     public int pistolBullets;
@@ -26,22 +30,20 @@ public class PlayerValues : MonoBehaviour {
 
     public int playerCoins;
 
+    private Image healthBanner;
+
     private GameObject text;
     // Use this for initialization
     void Start()
     {
+        healthBanner = GameObject.Find("HealthBanner/Mask/GreenBanner").GetComponent<Image>();
         playerHealth = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerHealth <= 0)
-        {
-            GameObject.Find("MainCanvas").GetComponent<CanvasController>().GameOver();
-            playerHealth = 100;
-        }
-        GameObject.Find("InGameCanvas/PlayerHealth").GetComponent<Text>().text = playerHealth.ToString();
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + playerSpeed);
     }
 
     public List<float> GetPistolValues()
@@ -85,6 +87,13 @@ public class PlayerValues : MonoBehaviour {
     public void DecreaseHealth(int value)
     {
         this.playerHealth -= value;
+        if (playerHealth <= 0)
+        {
+            GameObject.Find("MainCanvas").GetComponent<CanvasController>().GameOver();
+            playerHealth = 100;
+        }
+        healthBanner.fillAmount = playerHealth / 100;
+        GameObject.Find("InGameCanvas/PlayerHealth").GetComponent<Text>().text = playerHealth.ToString();
     }
 
     public void UpdateValues(string whatValue, float value)
@@ -110,6 +119,22 @@ public class PlayerValues : MonoBehaviour {
                 minigunReloadingTime -= value;
                 break;
             default:
+                break;
+        }
+    }
+
+    public void SetStringValues(string whatValue, string value)
+    {
+        switch (whatValue)
+        {
+            case "mainWeapon":
+                mainWeapon = value;
+                break;
+            case "secondWeapon":
+                secondWeapon = value;
+                break;
+            case "thirdWeapon":
+                thirdWeapon = value;
                 break;
         }
     }

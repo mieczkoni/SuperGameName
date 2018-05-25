@@ -8,12 +8,6 @@ public class SpawnEnemies : MonoBehaviour {
     public GameObject enemy1;
     public GameObject enemy2;
     private float spawnTime = 1f;
-
-
-    // Use this for initialization
-    void Start () {
-
-    }
 	
 	// Update is called once per frame
 	void Update () {

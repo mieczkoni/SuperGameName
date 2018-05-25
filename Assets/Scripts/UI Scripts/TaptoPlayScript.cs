@@ -9,15 +9,12 @@ public class TaptoPlayScript : MonoBehaviour {
     private Text myText;
     private float lerpStrength = 1f;
     private bool increasing = false;
-    private GameObject shopButton, shopContent;
+    private GameObject shopButton;
     public GameObject weaponChoose;
-    private CanvasController controller;
 
     private void Start()
     {
-        controller = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
         weaponChoose = GameObject.Find("ChooseWeapon");
-        shopContent = GameObject.Find("ShopContent");
     }
 
     // Update is called once per frame

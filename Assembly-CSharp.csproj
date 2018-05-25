@@ -70,12 +70,12 @@
     <Compile Include="Assets\Scripts\EnemyShot.cs" />
     <Compile Include="Assets\Scripts\PlayerShooting.cs" />
     <Compile Include="Assets\Scripts\PlayerValues.cs" />
-    <Compile Include="Assets\Scripts\PlayerWalking.cs" />
     <Compile Include="Assets\Scripts\RemoveRoom.cs" />
     <Compile Include="Assets\Scripts\Shot.cs" />
     <Compile Include="Assets\Scripts\SpawnNewRoom.cs" />
     <Compile Include="Assets\Scripts\Throw.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\CanvasController.cs" />
+    <Compile Include="Assets\Scripts\UI Scripts\ChooseWeaponController.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\ShopController.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\TaptoPlayScript.cs" />
     <Compile Include="Assets\Scripts\UI Scripts\TextEdit.cs" />

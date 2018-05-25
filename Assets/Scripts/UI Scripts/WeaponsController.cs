@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class WeaponsController : MonoBehaviour {
 
-    private GameObject weaponChoose, weaponsBckg, startCanvas, weaponEnd, gameOverCanvas;
+    private GameObject weaponsBckg, startCanvas, weaponEnd, gameOverCanvas;
     private CanvasController controller;
     public string weaponName;
 
     public void Start()
     {
         controller = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
-        weaponChoose = GameObject.Find("ChooseWeapon");
         weaponsBckg = GameObject.Find("WeaponsBackground");
         startCanvas = GameObject.Find("StartCanvas");
         gameOverCanvas = GameObject.Find("GameOverCanvas");

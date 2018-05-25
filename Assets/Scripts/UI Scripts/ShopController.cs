@@ -66,12 +66,13 @@ public class ShopController : MonoBehaviour {
         minigunParent.transform.Find("Background/ReloadingUpgrade/ActualReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)playerVal.minigunReloadingTime, 1).ToString() + "s";
         minigunParent.transform.Find("Background/ReloadingUpgrade/UpgradedReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)(playerVal.minigunReloadingTime - 0.1f), 1).ToString() + "s";
         minigunParent.transform.Find("Background/ReloadingUpgrade/ReloadingUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunReloadingUpgradeCost.ToString();
-        print("Values Updated");
+        //print("Values Updated");
     }
 
     private void SetHovers()
     {
         float x;
+        float y;
         x = (actualPistolDamageUpgradeCost > playerVal.playerCoins) ? SetHoverActive(pistolDamageHover, true) : SetHoverActive(pistolDamageHover, false);
         x = (actualPistolBulletsUpgradeCost > playerVal.playerCoins) ? SetHoverActive(pistolBulletsHover, true) : SetHoverActive(pistolBulletsHover, false);
         x = (actualPistolReloadingUpgradeCost > playerVal.playerCoins) ? SetHoverActive(pistolReloadingHover, true) : SetHoverActive(pistolReloadingHover, false);
@@ -79,8 +80,9 @@ public class ShopController : MonoBehaviour {
         x = (actualMinigunDamageUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunDamageHover, true) : SetHoverActive(minigunDamageHover, false);
         x = (actualMinigunBulletsUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunBulletsHover, true) : SetHoverActive(minigunBulletsHover, false);
         x = (actualMinigunReloadingUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunReloadingHover, true) : SetHoverActive(minigunReloadingHover, false);
-        print(x);
-        print("Hovers Set");
+        y = x;
+        x = y;
+        //print("Hovers Set");
     }
 
     private float SetHoverActive(GameObject hover, bool state)
@@ -130,6 +132,7 @@ public class ShopController : MonoBehaviour {
 
     public void MinigunDamageUpgrade()
     {
+        print("MINIGUN HOVER: " + minigunDamageHover.activeSelf);
         if (!minigunDamageHover.activeSelf)
         {
             playerVal.UpdateValues("minigunDamage", 20);

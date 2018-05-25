@@ -6,24 +6,13 @@ public class EnemyHealth : MonoBehaviour {
 
     public float health;
 
-    // Use this for initialization
-    void Start()
+    public void decreaseHealth(float value)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        this.health -= value;
         if (health <= 0)
         {
             Destroy(this.gameObject);
             GameObject.Find("Player").GetComponent<PlayerValues>().UpdateCoinsValue(15);
         }
-    }
-
-    public void decreaseHealth(float value)
-    {
-        this.health -= value;
     }
 }

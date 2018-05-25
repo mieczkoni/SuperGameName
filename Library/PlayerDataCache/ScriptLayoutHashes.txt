@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-C:/Users/Marianek/Desktop/Projects/SuperGameName/superGameName_0.3.apk
+C:/Users/Marianek/Desktop/Projects/SuperGameName/superGameName_0.4.apk
 SceneListBegin?
 Assets/_Scenes/SampleScene.unity
 SceneListEnd?
@@ -143,7 +143,7 @@ bc68edb0af574bf79f9550ead8ebae5c UnityEngine.HoloLens.dll:UnityEngine.Audio.Audi
 463516d5b5fe8e67a0a24c48f2095b04 UnityEngine.HoloLens.dll:UnityEngine.EventSystems.HoloLensInputModule
 c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingCollider
 45f3431f0103c41611e8d4eec3d439df UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.SpatialMappingRenderer
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.CanvasController
+33bf16b70defac662f5802d26bba9fe4 Assembly-CSharp.dll:.CanvasController
 50a0fa002cfc67638c87a901e46b763e Assembly-CSharp.dll:TMPro.Examples.TMP_TextSelector_B
 d78da10fc6fe2ebb0bfa7bfae15012c5 Assembly-CSharp.dll:UnityEngine.AI.NavMeshModifierVolume
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.ShopController
@@ -210,7 +210,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.RemoveRoom
 7f58881769ba02271d300aff47176643 Assembly-CSharp.dll:.EnemyShot
-e6b1aa2b1ae814d3a3f89383cfde038d Assembly-CSharp.dll:.PlayerValues
+c3ddd3a3510d3fc5f274a5ac34987954 Assembly-CSharp.dll:.PlayerValues
 62229a3e4d53ca59bec192e89627ed52 Assembly-CSharp.dll:TMPro.Examples.CameraController
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
 f02726adeff0a3ec5905565234b372da UnityEngine.TestRunner.dll:UnityEngine.TestTools.TestRunner.PlaymodeTestsController
@@ -250,3 +250,4 @@ a69b3ee0402770d02d1c122324e4b00e Assembly-CSharp.dll:TMPro.Examples.SkewTextExam
 38e1ec7ecf17dc3f9c2a6e534b6cc37b Assembly-CSharp.dll:.WeaponsController
 34e025057ef78b1bf238460cdf6583a3 Assembly-CSharp.dll:TMPro.Examples.ObjectSpin
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:TMPro.Examples.SimpleScript
+e3b212eec1853104b0b2e496aaf05085 Assembly-CSharp.dll:.ChooseWeaponController

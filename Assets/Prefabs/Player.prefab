@@ -114,9 +114,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: 100
+  playerSpeed: 0.05
+  playerWeapons:
+  - Pistol
+  - Minigun
+  mainWeapon: Pistol
+  secondWeapon: 
+  thirdWeapon: 
   pistolDamage: 10
   pistolBullets: 10
-  pistolShotFrequency: 0.01
+  pistolShotFrequency: 0.4
   pistolShotRange: 20
   pistolBulletMovementSpeed: 40
   pistolReloadingTime: 1
