@@ -22,9 +22,8 @@ GameObject:
   - component: {fileID: 33417233665941238}
   - component: {fileID: 23005368319982628}
   - component: {fileID: 136863841934373300}
-  - component: {fileID: 114608917225336250}
-  - component: {fileID: 114112906892401202}
   - component: {fileID: 195826132404876552}
+  - component: {fileID: 114985947593056956}
   m_Layer: 0
   m_Name: WeakEnemy
   m_TagString: Enemy
@@ -87,7 +86,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649415020853244}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114112906892401202
+--- !u!114 &114985947593056956
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -95,18 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1649415020853244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfc7bcd0dae973f4b8e6b3823ddfa0f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114608917225336250
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1649415020853244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8225fc6c2bfc8d4c9b772154cf2b0f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 749a30b74890f0d419d92ce9377664d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100

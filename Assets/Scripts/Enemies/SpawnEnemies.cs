@@ -14,10 +14,8 @@ public class SpawnEnemies : MonoBehaviour {
         timer += Time.deltaTime;
         if (spawnTime >= 0.4f)
         {
-            //print(spawnTime);
             spawnTime -= 0.0005f;
         }
-        //print("DELTA: " + Time.deltaTime);
         if (timer > spawnTime)
         {
             SpawnObject();
@@ -27,20 +25,17 @@ public class SpawnEnemies : MonoBehaviour {
 
     void SpawnObject()
     {
-        //print("DUpa: " + enemies.Length);
-        //print(Random.Range(0, enemies.Length - 1));
         int rand = Random.Range(0, 2);
-        //enemy1 = GameObject.Find("WeakEnemy");
-        //enemy2 = GameObject.Find("MediumEnemy");
         if (rand == 0)
         {
             GameObject newEnemy = Instantiate(enemy1, new Vector3(Random.Range(-4.0f, 4.0f), 0.8f, transform.position.z + 30), Quaternion.identity);
+            newEnemy.transform.name = "WeakEnemy";
             newEnemy.transform.Rotate(0, 180, 0);
         } else
         {
             GameObject newEnemy = Instantiate(enemy1, new Vector3(Random.Range(-4.0f, 4.0f), 0.8f, transform.position.z + 30), Quaternion.identity);
+            newEnemy.transform.name = "WeakEnemy";
             newEnemy.transform.Rotate(0, 180, 0);
         }
-        //GameObject newBullet = Instantiate(enemy, new Vector3(Random.Range(-4.0f, 4.0f), 0.8f, transform.position.z + 30), Quaternion.identity);
     }
 }

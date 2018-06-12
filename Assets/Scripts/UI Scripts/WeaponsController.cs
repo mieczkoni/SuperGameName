@@ -29,12 +29,10 @@ public class WeaponsController : MonoBehaviour {
             {
                 weaponEnd = GameObject.Find("WeaponEnd");
                 weaponEnd.GetComponent<PlayerShooting>().gunType = "Pistol";
-                weaponEnd.GetComponent<PlayerShooting>().SetBulletText();
             } else if (weaponName == "Minigun")
             {
                 weaponEnd = GameObject.Find("WeaponEnd");
                 weaponEnd.GetComponent<PlayerShooting>().gunType = "Minigun";
-                weaponEnd.GetComponent<PlayerShooting>().SetBulletText();
             }
         }
     }

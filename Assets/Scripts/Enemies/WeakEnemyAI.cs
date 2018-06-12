@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeakEnemyAI : MonoBehaviour
 {
-
+    public float health;
     Transform player;
     UnityEngine.AI.NavMeshAgent nav;
     private float hitTimer = 0.0f;
@@ -28,6 +28,17 @@ public class WeakEnemyAI : MonoBehaviour
                 player.GetComponent<PlayerValues>().DecreaseHealth(10);
                 hitTimer = 0.0f;
             }
+        }
+    }
+
+    public void decreaseHealth(float value)
+    {
+        this.health -= value;
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+            GameObject.Find("Player").GetComponent<PlayerValues>().UpdateCoinsValue(15);
+            GameObject.Find("Player").GetComponent<PlayerValues>().UpdateExperienceValue(20);
         }
     }
 

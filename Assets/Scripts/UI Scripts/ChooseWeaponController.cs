@@ -110,7 +110,6 @@ public class ChooseWeaponController : MonoBehaviour {
         } else
         {
             playerShot.gunType = playerVal.mainWeapon;
-            playerShot.SetBulletText();
         }
     }
 
@@ -124,7 +123,6 @@ public class ChooseWeaponController : MonoBehaviour {
         } else
         {
             playerShot.gunType = playerVal.secondWeapon;
-            playerShot.SetBulletText();
         }
     }
 
@@ -138,7 +136,6 @@ public class ChooseWeaponController : MonoBehaviour {
         } else
         {
             playerShot.gunType = playerVal.thirdWeapon;
-            playerShot.SetBulletText();
         }
     }
 }

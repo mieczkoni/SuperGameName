@@ -7,16 +7,13 @@ public class PlayerShooting : MonoBehaviour
 
     LayerMask layerMesh;
     public GameObject bullet, granade;
-    private GameObject player, text, reloadingText;
+    private GameObject player;
     public string gunType;
 
     List<float> pistolValues, minigunValues;
     private float pistolFrequencyTimer = 0.0f, minigunFrequencyTimer = 0.0f;
     private float pistolFrequency, minigunFrequency;
-    private int pistolBullets = 0, minigunBullets = 0;
-    private bool pistolReloading = false, minigunReloading = false, mouseUp = false;
-    private float pistolReloadingTime, minigunReloadingTime;
-    private float pistolReloadingTimer = 0.0f, minigunReloadingTimer = 0.0f;
+    private bool mouseUp = false;
 
     private Vector3 referenceVector;
 
@@ -25,21 +22,12 @@ public class PlayerShooting : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-        text = GameObject.Find("BulletCount");
-        reloadingText = GameObject.Find("InGameCanvas/ReloadingText");
-        reloadingText.SetActive(true);
         pistolValues = player.GetComponent<PlayerValues>().GetPistolValues();
         minigunValues = player.GetComponent<PlayerValues>().GetMinigunValues();
 
-        pistolFrequency = pistolValues[3];
-        pistolBullets = (int)pistolValues[4];
-        pistolReloadingTime = pistolValues[5];
+        pistolFrequency = 1.0f / pistolValues[4];
 
-        minigunFrequency = minigunValues[3];
-        minigunBullets = (int)minigunValues[4];
-        minigunReloadingTime = minigunValues[5];
-
-        SetBulletText();
+        minigunFrequency = 1.0f / minigunValues[4];
     }
 
     // Update is called once per frame
@@ -54,9 +42,8 @@ public class PlayerShooting : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            if (gunType == "Pistol" && pistolBullets > 0)
+            if (gunType == "Pistol")
             {
-                text.GetComponent<TextEdit>().changeText(pistolBullets.ToString());
                 pistolFrequencyTimer += Time.deltaTime;
                 if (pistolFrequencyTimer > pistolFrequency)
                 {
@@ -64,14 +51,8 @@ public class PlayerShooting : MonoBehaviour
                     pistolFrequencyTimer = 0.0f;
                 }
             }
-            else if (pistolBullets == 0 && !pistolReloading)
+            if (gunType == "Minigun")
             {
-                WeaponReloading("Pistol");
-            }
-
-            if (gunType == "Minigun" && minigunBullets > 0)
-            {
-                text.GetComponent<TextEdit>().changeText(minigunBullets.ToString());
                 minigunFrequencyTimer += Time.deltaTime;
                 if (minigunFrequencyTimer > minigunFrequency)
                 {
@@ -79,44 +60,10 @@ public class PlayerShooting : MonoBehaviour
                     minigunFrequencyTimer = 0.0f;
                 }
             }
-            else if (minigunBullets == 0 && !minigunReloading)
-            {
-                WeaponReloading("Minigun");
-            }
-        } else if (Input.GetMouseButtonUp(0) && mouseUp == true)
+        }
+        else if (Input.GetMouseButtonUp(0) && mouseUp == true)
         {
             mouseUp = false;
-        }
-    }
-
-    private void WeaponReloading(string weaponName)
-    {
-        text.GetComponent<TextEdit>().changeText("0");
-        reloadingText.GetComponent<TextEdit>().changeText("RELOADING");
-        if (weaponName == "Pistol")
-        {
-            pistolReloadingTimer += Time.deltaTime;
-            if (pistolReloadingTimer > pistolReloadingTime)
-            {
-                reloadingText.GetComponent<TextEdit>().changeText("");
-                pistolValues = player.GetComponent<PlayerValues>().GetPistolValues();
-                pistolBullets = (int)pistolValues[4];
-                text.GetComponent<TextEdit>().changeText(pistolBullets.ToString());
-                pistolReloading = false;
-                pistolReloadingTimer = 0.0f;
-            }
-        } else if (weaponName == "Minigun")
-        {
-            minigunReloadingTimer += Time.deltaTime;
-            if (minigunReloadingTimer > minigunReloadingTime)
-            {
-                reloadingText.GetComponent<TextEdit>().changeText("");
-                minigunValues = player.GetComponent<PlayerValues>().GetMinigunValues();
-                minigunBullets = (int)minigunValues[4];
-                text.GetComponent<TextEdit>().changeText(minigunBullets.ToString());
-                minigunReloading = false;
-                minigunReloadingTimer = 0.0f;
-            }
         }
     }
 
@@ -129,13 +76,13 @@ public class PlayerShooting : MonoBehaviour
             //print("I'm looking at " + hit.transform.name);
             //print("HIT: " + hit.point);
         }
-        
+
         if (mouseUp == false)
         {
             referenceVector = new Vector3(hit.point.x, hit.point.y, player.transform.position.z - 2);
             mouseUp = true;
         }
-        referenceVector = new Vector3(referenceVector.x, referenceVector.y, player.transform.position.z - 2);
+        referenceVector = new Vector3(referenceVector.x, referenceVector.y, player.transform.position.z - 4);
 
         Vector3 v3_Dir = hit.point - referenceVector;
         //print("REF: " + referenceVector);
@@ -152,17 +99,15 @@ public class PlayerShooting : MonoBehaviour
             {
                 pistolValues = player.GetComponent<PlayerValues>().GetPistolValues();
                 newBullet.GetComponent<Shot>().setValues(pistolValues[0], pistolValues[1], pistolValues[2]);
-                pistolBullets -= 1;
             }
             else if (gunType == "Minigun")
             {
                 minigunValues = player.GetComponent<PlayerValues>().GetMinigunValues();
                 newBullet.GetComponent<Shot>().setValues(minigunValues[0], minigunValues[1], minigunValues[2]);
-                minigunBullets -= 1;
             }
         }
     }
-    
+
     private void ThrowGranade()
     {
         RaycastHit hit;
@@ -184,18 +129,4 @@ public class PlayerShooting : MonoBehaviour
     {
         return Mathf.Atan2(vec2.x - vec1.x, vec2.z - vec1.z) * 180 / Mathf.PI;
     }
-
-    public void SetBulletText()
-    {
-        if (gunType == "Pistol")
-        {
-            text.GetComponent<TextEdit>().changeText(pistolBullets.ToString());
-        } else if (gunType == "Minigun")
-        {
-            text.GetComponent<TextEdit>().changeText(minigunBullets.ToString());
-        }
-        
-    }
 }
-
-

@@ -8,13 +8,16 @@ public class ShopController : MonoBehaviour {
     private GameObject pistolParent, minigunParent;
     private PlayerValues playerVal;
 
-    private int actualPistolDamageUpgradeCost, actualPistolBulletsUpgradeCost, actualPistolReloadingUpgradeCost;
-    private int timesPistolDamageUpgraded = 0, timesPistolBulletsUpgraded = 0, timesPistolReloadingUpgraded = 0;
-    private int actualMinigunDamageUpgradeCost, actualMinigunBulletsUpgradeCost, actualMinigunReloadingUpgradeCost;
-    private int timesMinigunDamageUpgraded = 0, timesMinigunBulletsUpgraded = 0, timesMinigunReloadingUpgraded = 0;
+    private int actualPistolDamageUpgradeCost, actualPistolCriticUpgradeCost, actualPistolBPSUpgradeCost;
+    private int timesPistolDamageUpgraded = 0, timesPistolCriticUpgraded = 0, timesPistolBPSUpgraded = 0;
+    private int actualMinigunDamageUpgradeCost, actualMinigunCriticUpgradeCost, actualMinigunBPSUpgradeCost;
+    private int timesMinigunDamageUpgraded = 0, timesMinigunCriticUpgraded = 0, timesMinigunBPSUpgraded = 0;
 
-    private GameObject pistolDamageHover, pistolBulletsHover, pistolReloadingHover;
-    private GameObject minigunDamageHover, minigunBulletsHover, minigunReloadingHover;
+    private GameObject pistolDamageHover, pistolCriticHover, pistolBPSHover;
+    private GameObject minigunDamageHover, minigunCriticHover, minigunBPSHover;
+
+    private Button pistolDamageUpgradeButton, pistolCriticUpgradeButton, pistolBPSUpgradeButton;
+    private Button minigunDamageUpgradeButton, minigunCriticUpgradeButton, minigunBPSUpgradeButton;
 
     void Start () {
         pistolParent = GameObject.Find("PistolUpgrade");
@@ -22,11 +25,18 @@ public class ShopController : MonoBehaviour {
         playerVal = GameObject.Find("Player").GetComponent<PlayerValues>();
 
         pistolDamageHover = GameObject.Find("PistolUpgrade/Background/DamageUpgradeHover");
-        pistolBulletsHover = GameObject.Find("PistolUpgrade/Background/BulletUpgradeHover");
-        pistolReloadingHover = GameObject.Find("PistolUpgrade/Background/ReloadingUpgradeHover");
+        pistolCriticHover = GameObject.Find("PistolUpgrade/Background/CriticalShotUpgradeHover");
+        pistolBPSHover = GameObject.Find("PistolUpgrade/Background/BPSUpgradeHover");
         minigunDamageHover = GameObject.Find("MinigunUpgrade/Background/DamageUpgradeHover");
-        minigunBulletsHover = GameObject.Find("MinigunUpgrade/Background/BulletUpgradeHover");
-        minigunReloadingHover = GameObject.Find("MinigunUpgrade/Background/ReloadingUpgradeHover");
+        minigunCriticHover = GameObject.Find("MinigunUpgrade/Background/CriticalShotUpgradeHover");
+        minigunBPSHover = GameObject.Find("MinigunUpgrade/Background/BPSUpgradeHover");
+
+        pistolDamageUpgradeButton = GameObject.Find("PistolUpgrade/Background/DamageUpgrade").GetComponent<Button>();
+        pistolCriticUpgradeButton = GameObject.Find("PistolUpgrade/Background/CriticalShotUpgrade").GetComponent<Button>();
+        pistolBPSUpgradeButton = GameObject.Find("PistolUpgrade/Background/BPSUpgrade").GetComponent<Button>();
+        minigunDamageUpgradeButton = GameObject.Find("MinigunUpgrade/Background/DamageUpgrade").GetComponent<Button>();
+        minigunCriticUpgradeButton = GameObject.Find("MinigunUpgrade/Background/CriticalShotUpgrade").GetComponent<Button>();
+        minigunBPSUpgradeButton = GameObject.Find("MinigunUpgrade/Background/BPSUpgrade").GetComponent<Button>();
 
         UpdateValues();
         SetHovers();
@@ -36,137 +46,118 @@ public class ShopController : MonoBehaviour {
     public void UpdateValues()
     {
         actualPistolDamageUpgradeCost = 100 + (50 * timesPistolDamageUpgraded);
-        actualPistolBulletsUpgradeCost = 500 + (100 * timesPistolBulletsUpgraded);
-        actualPistolReloadingUpgradeCost = 1000 + (500 * timesPistolReloadingUpgraded);
+        actualPistolCriticUpgradeCost = 1000 + (80 * timesPistolCriticUpgraded);
+        actualPistolBPSUpgradeCost = 3000 + (250 * timesPistolBPSUpgraded);
 
         actualMinigunDamageUpgradeCost = 500 + (100 * timesMinigunDamageUpgraded);
-        actualMinigunBulletsUpgradeCost = 1000 + (500 * timesMinigunBulletsUpgraded);
-        actualMinigunReloadingUpgradeCost = 3000 + (1000 * timesMinigunReloadingUpgraded);
+        actualMinigunCriticUpgradeCost = 5000 + (160 * timesMinigunCriticUpgraded);
+        actualMinigunBPSUpgradeCost = 15000 + (1250 * timesMinigunBPSUpgraded);
 
         pistolParent.transform.Find("Background/DamageUpgrade/ActualDamageValue").GetComponent<Text>().text = playerVal.pistolDamage.ToString();
         pistolParent.transform.Find("Background/DamageUpgrade/UpgradedDamageValue").GetComponent<Text>().text = (playerVal.pistolDamage + 15).ToString();
         pistolParent.transform.Find("Background/DamageUpgrade/DamageUpgradePrice").GetComponent<Text>().text = "$ " + actualPistolDamageUpgradeCost.ToString();
 
-        pistolParent.transform.Find("Background/BulletUpgrade/ActualBulletsValue").GetComponent<Text>().text = playerVal.pistolBullets.ToString();
-        pistolParent.transform.Find("Background/BulletUpgrade/UpgradedBulletsValue").GetComponent<Text>().text = (playerVal.pistolBullets + 1).ToString();
-        pistolParent.transform.Find("Background/BulletUpgrade/BulletsUpgradePrice").GetComponent<Text>().text = "$ " + actualPistolBulletsUpgradeCost.ToString();
+        pistolParent.transform.Find("Background/CriticalShotUpgrade/ActualDamageValue").GetComponent<Text>().text = (playerVal.pistolCriticalShotChance * 100).ToString() + "%";
+        pistolParent.transform.Find("Background/CriticalShotUpgrade/UpgradedDamageValue").GetComponent<Text>().text = (playerVal.pistolCriticalShotChance * 100 + 1).ToString() + "%";
+        pistolParent.transform.Find("Background/CriticalShotUpgrade/DamageUpgradePrice").GetComponent<Text>().text = "$ " + actualPistolCriticUpgradeCost.ToString();
 
-        pistolParent.transform.Find("Background/ReloadingUpgrade/ActualReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)playerVal.pistolReloadingTime, 1).ToString() + "s";
-        pistolParent.transform.Find("Background/ReloadingUpgrade/UpgradedReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)(playerVal.pistolReloadingTime - 0.1f), 1).ToString() +"s";
-        pistolParent.transform.Find("Background/ReloadingUpgrade/ReloadingUpgradePrice").GetComponent<Text>().text = "$ " + actualPistolReloadingUpgradeCost.ToString();
-        
+        pistolParent.transform.Find("Background/BPSUpgrade/ActualDamageValue").GetComponent<Text>().text = playerVal.pistolBulletsPerSecond.ToString("F1");
+        pistolParent.transform.Find("Background/BPSUpgrade/UpgradedDamageValue").GetComponent<Text>().text = (playerVal.pistolBulletsPerSecond + 0.1).ToString("F1");
+        pistolParent.transform.Find("Background/BPSUpgrade/DamageUpgradePrice").GetComponent<Text>().text = "$ " + actualPistolBPSUpgradeCost.ToString();
+
+
         minigunParent.transform.Find("Background/DamageUpgrade/ActualDamageValue").GetComponent<Text>().text = playerVal.minigunDamage.ToString();
         minigunParent.transform.Find("Background/DamageUpgrade/UpgradedDamageValue").GetComponent<Text>().text = (playerVal.minigunDamage + 20).ToString();
         minigunParent.transform.Find("Background/DamageUpgrade/DamageUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunDamageUpgradeCost.ToString();
 
-        minigunParent.transform.Find("Background/BulletUpgrade/ActualBulletsValue").GetComponent<Text>().text = playerVal.minigunBullets.ToString();
-        minigunParent.transform.Find("Background/BulletUpgrade/UpgradedBulletsValue").GetComponent<Text>().text = (playerVal.minigunBullets + 2).ToString();
-        minigunParent.transform.Find("Background/BulletUpgrade/BulletsUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunBulletsUpgradeCost.ToString();
+        minigunParent.transform.Find("Background/CriticalShotUpgrade/ActualDamageValue").GetComponent<Text>().text = (playerVal.minigunCriticalShotChance * 100).ToString() + "%";
+        minigunParent.transform.Find("Background/CriticalShotUpgrade/UpgradedDamageValue").GetComponent<Text>().text = (playerVal.minigunCriticalShotChance * 100 + 1).ToString() + "%";
+        minigunParent.transform.Find("Background/CriticalShotUpgrade/DamageUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunCriticUpgradeCost.ToString();
 
-        minigunParent.transform.Find("Background/ReloadingUpgrade/ActualReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)playerVal.minigunReloadingTime, 1).ToString() + "s";
-        minigunParent.transform.Find("Background/ReloadingUpgrade/UpgradedReloadingValue").GetComponent<Text>().text = decimal.Round((decimal)(playerVal.minigunReloadingTime - 0.1f), 1).ToString() + "s";
-        minigunParent.transform.Find("Background/ReloadingUpgrade/ReloadingUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunReloadingUpgradeCost.ToString();
-        //print("Values Updated");
+        minigunParent.transform.Find("Background/BPSUpgrade/ActualDamageValue").GetComponent<Text>().text = playerVal.minigunBulletsPerSecond.ToString("F1");
+        minigunParent.transform.Find("Background/BPSUpgrade/UpgradedDamageValue").GetComponent<Text>().text = (playerVal.minigunBulletsPerSecond + 0.1).ToString("F1");
+        minigunParent.transform.Find("Background/BPSUpgrade/DamageUpgradePrice").GetComponent<Text>().text = "$ " + actualMinigunBPSUpgradeCost.ToString();
     }
 
-    private void SetHovers()
+    public void SetHovers()
     {
-        float x;
-        float y;
-        x = (actualPistolDamageUpgradeCost > playerVal.playerCoins) ? SetHoverActive(pistolDamageHover, true) : SetHoverActive(pistolDamageHover, false);
-        x = (actualPistolBulletsUpgradeCost > playerVal.playerCoins) ? SetHoverActive(pistolBulletsHover, true) : SetHoverActive(pistolBulletsHover, false);
-        x = (actualPistolReloadingUpgradeCost > playerVal.playerCoins) ? SetHoverActive(pistolReloadingHover, true) : SetHoverActive(pistolReloadingHover, false);
+        float x, y;
+        x = (actualPistolDamageUpgradeCost > playerVal.playerCoins) ? SetActive(pistolDamageHover, pistolDamageUpgradeButton, true) : SetActive(pistolDamageHover, pistolDamageUpgradeButton, false);
+        x = (actualPistolCriticUpgradeCost > playerVal.playerCoins) ? SetActive(pistolCriticHover, pistolCriticUpgradeButton, true) : SetActive(pistolCriticHover, pistolCriticUpgradeButton, false);
+        x = (actualPistolBPSUpgradeCost > playerVal.playerCoins) ? SetActive(pistolBPSHover, pistolBPSUpgradeButton, true) : SetActive(pistolBPSHover, pistolBPSUpgradeButton, false);
 
-        x = (actualMinigunDamageUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunDamageHover, true) : SetHoverActive(minigunDamageHover, false);
-        x = (actualMinigunBulletsUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunBulletsHover, true) : SetHoverActive(minigunBulletsHover, false);
-        x = (actualMinigunReloadingUpgradeCost > playerVal.playerCoins) ? SetHoverActive(minigunReloadingHover, true) : SetHoverActive(minigunReloadingHover, false);
+        x = (actualMinigunDamageUpgradeCost > playerVal.playerCoins) ? SetActive(minigunDamageHover, minigunDamageUpgradeButton, true) : SetActive(minigunDamageHover, minigunDamageUpgradeButton, false);
+        x = (actualMinigunCriticUpgradeCost > playerVal.playerCoins) ? SetActive(minigunCriticHover, minigunCriticUpgradeButton, true) : SetActive(minigunCriticHover, minigunCriticUpgradeButton, false);
+        x = (actualMinigunBPSUpgradeCost > playerVal.playerCoins) ? SetActive(minigunBPSHover, minigunBPSUpgradeButton, true) : SetActive(minigunBPSHover, minigunBPSUpgradeButton, false);
         y = x;
         x = y;
         //print("Hovers Set");
     }
 
-    private float SetHoverActive(GameObject hover, bool state)
+    private float SetActive(GameObject hover, Button button, bool state)
     {
         hover.SetActive(state);
+        button.interactable = !state;
         return 0.0f;
     }
 
     public void PistolDamageUpgrade()
     {
-        if (!pistolDamageHover.activeSelf)
-        {
-            playerVal.UpdateValues("pistolDamage", 15);
-            playerVal.playerCoins -= actualPistolDamageUpgradeCost;
-            timesPistolDamageUpgraded += 1;
-            UpdateValues();
-            playerVal.UpdateCoinsValue(0);
-            SetHovers();
-        }
+        playerVal.UpdateValues("pistolDamage", 15);
+        playerVal.playerCoins -= actualPistolDamageUpgradeCost;
+        timesPistolDamageUpgraded += 1;
+        UpdateValues();
+        playerVal.UpdateCoinsValue(0);
+        SetHovers();
     }
 
-    public void PistolBulletsUpgrade()
+    public void PistolCriticalChanceUpgrade()
     {
-        if (!pistolBulletsHover.activeSelf)
-        {
-            playerVal.UpdateValues("pistolBullets", 1);
-            playerVal.playerCoins -= actualPistolBulletsUpgradeCost;
-            timesPistolBulletsUpgraded += 1;
-            UpdateValues();
-            playerVal.UpdateCoinsValue(0);
-            SetHovers();
-        }
+        playerVal.UpdateValues("pistolCriticalShotChance", 1);
+        playerVal.playerCoins -= actualPistolCriticUpgradeCost;
+        timesPistolCriticUpgraded += 1;
+        UpdateValues();
+        playerVal.UpdateCoinsValue(0);
+        SetHovers();
     }
 
-    public void PistolReloadingUpgrade()
+    public void PistolBPSUpgrade()
     {
-        if (!pistolReloadingHover.activeSelf)
-        {
-            playerVal.UpdateValues("pistolReloadingTime", 0.1f);
-            playerVal.playerCoins -= actualPistolReloadingUpgradeCost;
-            timesPistolReloadingUpgraded += 1;
-            UpdateValues();
-            playerVal.UpdateCoinsValue(0);
-            SetHovers();
-        }
+        playerVal.UpdateValues("pistolBPS", 0.1f);
+        playerVal.playerCoins -= actualPistolBPSUpgradeCost;
+        timesPistolBPSUpgraded += 1;
+        UpdateValues();
+        playerVal.UpdateCoinsValue(0);
+        SetHovers();
     }
 
     public void MinigunDamageUpgrade()
     {
-        print("MINIGUN HOVER: " + minigunDamageHover.activeSelf);
-        if (!minigunDamageHover.activeSelf)
-        {
-            playerVal.UpdateValues("minigunDamage", 20);
-            playerVal.playerCoins -= actualMinigunDamageUpgradeCost;
-            timesMinigunDamageUpgraded += 1;
-            UpdateValues();
-            playerVal.UpdateCoinsValue(0);
-            SetHovers();
-        }
+        playerVal.UpdateValues("minigunDamage", 20);
+        playerVal.playerCoins -= actualMinigunDamageUpgradeCost;
+        timesMinigunDamageUpgraded += 1;
+        UpdateValues();
+        playerVal.UpdateCoinsValue(0);
+        SetHovers();
     }
 
-    public void MinigunBulletsUpgrade()
+    public void MinigunCriticalChanceUpgrade()
     {
-        if (!minigunBulletsHover.activeSelf)
-        {
-            playerVal.UpdateValues("minigunBullets", 2);
-            playerVal.playerCoins -= actualMinigunBulletsUpgradeCost;
-            timesMinigunBulletsUpgraded += 1;
-            UpdateValues();
-            playerVal.UpdateCoinsValue(0);
-            SetHovers();
-        }
+        playerVal.UpdateValues("minigunCriticalShotChance", 1);
+        playerVal.playerCoins -= actualMinigunCriticUpgradeCost;
+        timesMinigunCriticUpgraded += 1;
+        UpdateValues();
+        playerVal.UpdateCoinsValue(0);
+        SetHovers();
     }
 
-    public void MinigunReloadingUpgrade()
+    public void MinigunBPSUpgrade()
     {
-        if (!minigunReloadingHover.activeSelf)
-        {
-            playerVal.UpdateValues("minigunReloadingTime", 0.1f);
-            playerVal.playerCoins -= actualMinigunReloadingUpgradeCost;
-            timesMinigunReloadingUpgraded += 1;
-            UpdateValues();
-            playerVal.UpdateCoinsValue(0);
-            SetHovers();
-        }
+        playerVal.UpdateValues("minigunBPS", 20);
+        playerVal.playerCoins -= actualMinigunBPSUpgradeCost;
+        timesMinigunBPSUpgraded += 1;
+        UpdateValues();
+        playerVal.UpdateCoinsValue(0);
+        SetHovers();
     }
 }

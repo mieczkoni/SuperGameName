@@ -1,74 +1,109 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CanvasController : MonoBehaviour {
 
-    public GameObject shopCanvas, weaponChooseCanvas, inGameCanvas, startCanvas, pauseCanvas, shopButton;
-    private bool isGameOver;
+    public GameObject weaponsCNB, weaponChooseCanvas, inGameCanvas, startCanvas, pauseCanvas;
+    private Button shopButton;
+    //public Canvas shopCanvas, weaponChooseCanvas, inGameCanvas, startCanvas, pauseCanvas, shopButton;
+    private GameObject player;
+    private PlayerValues playerVal;
+    private GameController gameController;
+    private bool isGameOver, isInGame = false;
 
 	// Use this for initialization
 	void Start () {
-        shopCanvas = GameObject.Find("ShopCanvas");
+        weaponsCNB = GameObject.Find("WeaponsCNB");
         weaponChooseCanvas = GameObject.Find("ChooseWeaponCanvas");
         inGameCanvas = GameObject.Find("InGameCanvas");
         startCanvas = GameObject.Find("StartCanvas");
         pauseCanvas = GameObject.Find("PauseCanvas");
-        shopButton = GameObject.Find("ShopButtonCanvas");
+        gameController = GameObject.Find("Player").GetComponent<GameController>();
 
-        GameObject.Find("Player").GetComponent<SpawnEnemies>().enabled = false;
+        player = GameObject.Find("Player");
+        playerVal = player.GetComponent<PlayerValues>();
+
+        player.GetComponent<SpawnEnemies>().enabled = false;
         GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().enabled = false;
 
-        HideShopCanvas();
+        playerVal.UpdateCoinsValue(0);
         HidePauseCanvas();
-        HideWeaponChooseCanvas();
+        HideWeaponsCNB();
+        //HideWeaponChooseCanvas();
         HideInGameCanvas();
     }
 
-    public void ShowShopButton()
+    public void ShowWeaponsCNB()
     {
-        shopButton.GetComponent<Canvas>().enabled = true;
+        if (isInGame == false)
+        {
+            weaponsCNB.GetComponent<Canvas>().enabled = true;
+            GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().InstantiateWeaponsPrefabs();
+        }
+    }
+    
+    public void HideWeaponsCNB()
+    {
+        weaponsCNB.GetComponent<Canvas>().enabled = false;
     }
 
-    public void HideShopButton()
+    public void ShowSkillsCNB()
     {
-        shopButton.GetComponent<Canvas>().enabled = false;
+        if (weaponsCNB.GetComponent<Canvas>().isActiveAndEnabled)
+        {
+            HideCNBCanvas();
+        }
+        if (isInGame == false)
+        {
+            weaponsCNB.GetComponent<Canvas>().enabled = true;
+            GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().InstantiateSkillsPrefabs();
+        }
     }
 
-    public void ShowShopCanvas()
+    public void HideCNBCanvas()
     {
-        shopCanvas.GetComponent<Canvas>().enabled = true;
-        HideShopButton();
+        weaponsCNB.GetComponent<Canvas>().enabled = false;
+        GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().DestroyPrefabs();
     }
 
-    public void HideShopCanvas()
-    {
-        shopCanvas.GetComponent<Canvas>().enabled = false;
-        ShowShopButton();
-    }
+    //public void ShowShopCanvas()
+    //{
+    //    shopCanvas.GetComponent<Canvas>().enabled = true;
+    //    GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().InstantiateWeaponsPrefabs();
+    //    //GameObject.Find("ShopCanvas").GetComponent<ShopController>().SetHovers();
+    //    //HideWeaponChooseCanvas();
+    //    HideShopButton();
+    //}
+
+    //public void HideShopCanvas()
+    //{
+    //    //GameObject.Find("ChooseAndBuyCanvas").GetComponent<CNBScript>().DeleteInstantiatedPrefabs();
+    //    shopCanvas.GetComponent<Canvas>().enabled = false;
+    //    ShowShopButton();
+    //}
 
     public void ShowWeaponChooseCanvas()
     {
         weaponChooseCanvas.GetComponent<Canvas>().enabled = true;
-        HideShopButton();
     }
 
     public void HideWeaponChooseCanvas()
     {
         weaponChooseCanvas.GetComponent<Canvas>().enabled = false;
-        ShowShopButton();
     }
 
     public void ShowInGameCanvas()
     {
         inGameCanvas.GetComponent<Canvas>().enabled = true;
-        HideShopButton();
+        isInGame = true;
     }
 
     public void HideInGameCanvas()
     {
         inGameCanvas.GetComponent<Canvas>().enabled = false;
-        ShowShopButton();
+        isInGame = false;
     }
 
     public void ShowStartCanvas()
@@ -91,7 +126,6 @@ public class CanvasController : MonoBehaviour {
         pauseCanvas.GetComponent<Canvas>().enabled = false;
     }
 
-
     public void StartGame()
     {
         if (isGameOver)
@@ -103,47 +137,40 @@ public class CanvasController : MonoBehaviour {
             }
             HideStartCanvas();
             ShowInGameCanvas();
-            GameObject.Find("Player").GetComponent<PlayerValues>().playerHealth = 100;
-            GameObject.Find("Player").GetComponent<PlayerValues>().playerSpeed = 0.05f;
+            playerVal.initStartGame();
             isGameOver = false;
         } else
         {
             HideStartCanvas();
             ShowInGameCanvas();
-            GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().SetBulletText();            
+            playerVal.initStartGame();
         }
-        GameObject.Find("Player").GetComponent<SpawnEnemies>().enabled = true;
-        GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().enabled = true;
+        gameController.BeginCalculations();
     }
 
     public void Pause()
     {
         Time.timeScale = 0.0f;
-        //GameObject.Find("Player").GetComponent<SpawnEnemies>().enabled = false;
-        GameObject.Find("Player").GetComponent<PlayerValues>().playerSpeed = 0f;
-        GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().enabled = false;
+        playerVal.initPauseGame();
         HideInGameCanvas();
         ShowPauseCanvas();
-        HideShopButton();
     }
 
     public void Resume()
     {
         Time.timeScale = 1.0f;
-        GameObject.Find("Player").GetComponent<PlayerValues>().playerSpeed = 0.05f;
-        GameObject.Find("Player").GetComponent<SpawnEnemies>().enabled = true;
-        GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().enabled = true;
+        playerVal.initResumeGame();
         ShowInGameCanvas();
         HidePauseCanvas();
     }
 
     public void GameOver()
     {
+        print("game over");
         isGameOver = true; 
         ShowStartCanvas();
         HideInGameCanvas();
-        GameObject.Find("Player").GetComponent<SpawnEnemies>().enabled = false;
-        GameObject.Find("Player").GetComponent<PlayerValues>().playerSpeed = 0.0f;
-        GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().enabled = false;
+        HidePauseCanvas();
+        playerVal.initGameOver();
     }
 }

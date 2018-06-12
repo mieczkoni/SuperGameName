@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33275285978504500}
   - component: {fileID: 23920129689462162}
   - component: {fileID: 135580067312764496}
-  - component: {fileID: 114573001450092108}
   - component: {fileID: 114213433890144582}
   - component: {fileID: 114402762833163612}
   - component: {fileID: 114832755190693210}
+  - component: {fileID: 114255687404080652}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -102,6 +102,17 @@ MonoBehaviour:
   wallObject: {fileID: 1930673013094606, guid: 3afda1233886fd04ea6de44df55f2d51, type: 2}
   floorObject: {fileID: 1041551908270138, guid: 4aa67683488bb484fbd46827c45315fb,
     type: 2}
+--- !u!114 &114255687404080652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1681189643586418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c316c5103021b94d9a8d912670a3258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114402762833163612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,40 +125,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: 100
+  playerExperience: 0
   playerSpeed: 0.05
+  playerLevel: 0
   playerWeapons:
   - Pistol
   - Minigun
   mainWeapon: Pistol
   secondWeapon: 
   thirdWeapon: 
-  pistolDamage: 10
-  pistolBullets: 10
-  pistolShotFrequency: 0.4
+  weaponsOwned: 0100
+  skillsOwned: 00
+  pistolDamage: 100
   pistolShotRange: 20
   pistolBulletMovementSpeed: 40
-  pistolReloadingTime: 1
-  minigunDamage: 20
-  minigunBullets: 30
-  minigunShotFrequency: 0.1
+  pistolCriticalShotChance: 0
+  pistolBulletsPerSecond: 2
+  minigunDamage: 100
   minigunShotRange: 20
   minigunBulletMovementSpeed: 40
-  minigunReloadingTime: 2
+  minigunCriticalShotChance: 0
+  minigunBulletsPerSecond: 5
+  shieldTime: 0
   granadeDamage: 0
   granadeThrowRange: 0
   playerCoins: 200
---- !u!114 &114573001450092108
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1681189643586418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a2727876ca2d74aadb45939605c31b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 0.05
+  distanceRecord: 0
 --- !u!114 &114832755190693210
 MonoBehaviour:
   m_ObjectHideFlags: 1

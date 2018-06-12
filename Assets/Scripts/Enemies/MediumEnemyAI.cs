@@ -8,6 +8,7 @@ public class MediumEnemyAI : MonoBehaviour {
     UnityEngine.AI.NavMeshAgent nav;
     public GameObject bullet;
     private float timer = 0.0f;
+    public float health;
 
     // Use this for initialization
     void Start()
@@ -40,5 +41,15 @@ public class MediumEnemyAI : MonoBehaviour {
     public static float AngleInDeg(Vector3 vec1, Vector3 vec2)
     {
         return Mathf.Atan2(vec2.x - vec1.x, vec2.z - vec1.z) * 180 / Mathf.PI;
+    }
+
+    public void decreaseHealth(float value)
+    {
+        this.health -= value;
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+            GameObject.Find("Player").GetComponent<PlayerValues>().UpdateCoinsValue(15);
+        }
     }
 }

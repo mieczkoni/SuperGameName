@@ -33,7 +33,13 @@ public class Shot : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyHealth>().decreaseHealth(damage);
+            if (other.transform.name == "WeakEnemy")
+            {
+                other.GetComponent<WeakEnemyAI>().decreaseHealth(damage);
+            } else if (other.transform.name == "MediumEnemy")
+            {
+                other.GetComponent<MediumEnemyAI>().decreaseHealth(damage);
+            }
             Destroy(this.gameObject);
         }
         else if (other.gameObject.CompareTag("Wall"))
