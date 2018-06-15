@@ -7,13 +7,14 @@ public class CanvasController : MonoBehaviour {
 
     public GameObject weaponsCNB, weaponChooseCanvas, inGameCanvas, startCanvas, pauseCanvas;
     private Button shopButton;
-    //public Canvas shopCanvas, weaponChooseCanvas, inGameCanvas, startCanvas, pauseCanvas, shopButton;
     private GameObject player;
     private PlayerValues playerVal;
     private GameController gameController;
-    private bool isGameOver, isInGame = false;
+    public bool isGameOver, isInGame = false;
 
-	// Use this for initialization
+    private SecondaryWeaponController secondaryWeaponController;
+    private SkillsController skillsController;
+
 	void Start () {
         weaponsCNB = GameObject.Find("WeaponsCNB");
         weaponChooseCanvas = GameObject.Find("ChooseWeaponCanvas");
@@ -24,14 +25,15 @@ public class CanvasController : MonoBehaviour {
 
         player = GameObject.Find("Player");
         playerVal = player.GetComponent<PlayerValues>();
+        secondaryWeaponController = player.GetComponent<SecondaryWeaponController>();
+        skillsController = player.GetComponent<SkillsController>();
 
         player.GetComponent<SpawnEnemies>().enabled = false;
         GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>().enabled = false;
 
         playerVal.UpdateCoinsValue(0);
         HidePauseCanvas();
-        HideWeaponsCNB();
-        //HideWeaponChooseCanvas();
+        HideCNBCanvas();
         HideInGameCanvas();
     }
 
@@ -39,50 +41,61 @@ public class CanvasController : MonoBehaviour {
     {
         if (isInGame == false)
         {
-            weaponsCNB.GetComponent<Canvas>().enabled = true;
-            GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().InstantiateWeaponsPrefabs();
+            if (weaponsCNB.GetComponent<CNBScript>().weaponsCNBActive == false)
+            {
+                if (weaponsCNB.GetComponent<Canvas>().isActiveAndEnabled)
+                {
+                    HideCNBCanvas();
+                }
+                weaponsCNB.GetComponent<Canvas>().enabled = true;
+                weaponsCNB.GetComponent<CNBScript>().InstantiateWeaponsPrefabs();
+            }
         }
     }
-    
-    public void HideWeaponsCNB()
+
+    public void ShowSecondaryWeaponsCNB()
     {
-        weaponsCNB.GetComponent<Canvas>().enabled = false;
+        if (isInGame == false)
+        {
+            if (weaponsCNB.GetComponent<CNBScript>().secondaryWeaponsCNBActive == false)
+            {
+                if (weaponsCNB.GetComponent<Canvas>().isActiveAndEnabled)
+                {
+                    HideCNBCanvas();
+                }
+                weaponsCNB.GetComponent<Canvas>().enabled = true;
+                weaponsCNB.GetComponent<CNBScript>().InstantiateSecondaryWeaponPrefabs();
+            }
+        } else if (isInGame == true)
+        {
+            secondaryWeaponController.ThrowSomething();
+        }
     }
 
     public void ShowSkillsCNB()
     {
-        if (weaponsCNB.GetComponent<Canvas>().isActiveAndEnabled)
-        {
-            HideCNBCanvas();
-        }
         if (isInGame == false)
         {
-            weaponsCNB.GetComponent<Canvas>().enabled = true;
-            GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().InstantiateSkillsPrefabs();
+            if (weaponsCNB.GetComponent<CNBScript>().skillsCNBActive == false)
+            {
+                if (weaponsCNB.GetComponent<Canvas>().isActiveAndEnabled)
+                {
+                    HideCNBCanvas();
+                }
+                weaponsCNB.GetComponent<Canvas>().enabled = true;
+                weaponsCNB.GetComponent<CNBScript>().InstantiateSkillsPrefabs();
+            }
+        } else if (isInGame == true)
+        {
+            skillsController.UseSkill();
         }
     }
 
     public void HideCNBCanvas()
     {
         weaponsCNB.GetComponent<Canvas>().enabled = false;
-        GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().DestroyPrefabs();
+        weaponsCNB.GetComponent<CNBScript>().DestroyPrefabs();
     }
-
-    //public void ShowShopCanvas()
-    //{
-    //    shopCanvas.GetComponent<Canvas>().enabled = true;
-    //    GameObject.Find("WeaponsCNB").GetComponent<CNBScript>().InstantiateWeaponsPrefabs();
-    //    //GameObject.Find("ShopCanvas").GetComponent<ShopController>().SetHovers();
-    //    //HideWeaponChooseCanvas();
-    //    HideShopButton();
-    //}
-
-    //public void HideShopCanvas()
-    //{
-    //    //GameObject.Find("ChooseAndBuyCanvas").GetComponent<CNBScript>().DeleteInstantiatedPrefabs();
-    //    shopCanvas.GetComponent<Canvas>().enabled = false;
-    //    ShowShopButton();
-    //}
 
     public void ShowWeaponChooseCanvas()
     {
@@ -166,8 +179,21 @@ public class CanvasController : MonoBehaviour {
 
     public void GameOver()
     {
-        print("game over");
         isGameOver = true; 
+        ShowStartCanvas();
+        HideInGameCanvas();
+        HidePauseCanvas();
+        playerVal.initGameOver();
+    }
+
+    public void Surrender()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        isGameOver = true;
         ShowStartCanvas();
         HideInGameCanvas();
         HidePauseCanvas();

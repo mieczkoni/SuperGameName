@@ -9,12 +9,13 @@ public class TaptoPlayScript : MonoBehaviour {
     private Text myText;
     private float lerpStrength = 1f;
     private bool increasing = false;
-    private GameObject shopButton;
-    public GameObject weaponChoose;
+    public GameObject weaponChoose, tapToPlay;
 
     private void Start()
     {
         weaponChoose = GameObject.Find("ChooseWeapon");
+        tapToPlay = GameObject.Find("TapToPlay");
+        myText = tapToPlay.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -32,13 +33,11 @@ public class TaptoPlayScript : MonoBehaviour {
             if (lerpStrength >= 0.9f)
                 increasing = false;
         }
-        if (GameObject.Find("TapToPlay") != null)
+        if (tapToPlay != null)
         {
-            myText = GameObject.Find("TapToPlay").GetComponent<Text>();
             Color lerpColor = myText.color;
             lerpColor.a = Mathf.Lerp(1, 0, lerpStrength);
             myText.color = lerpColor;
         } 
-        
     }
 }

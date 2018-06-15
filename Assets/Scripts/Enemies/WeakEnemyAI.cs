@@ -4,31 +4,54 @@ using UnityEngine;
 
 public class WeakEnemyAI : MonoBehaviour
 {
-    public float health;
+    public float health, damage;
     Transform player;
+    PlayerValues playerValues;
     UnityEngine.AI.NavMeshAgent nav;
-    private float hitTimer = 0.0f;
+    private float hitTimer = 0.0f, calculateTimer = 0.0f;
+    private bool playerInRange = false;
+
+    private CanvasController canvasController;
 
     // Use this for initialization
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        canvasController = GameObject.Find("MainCanvas").GetComponent<CanvasController>();
+        player = GameObject.Find("Player").transform;
+        playerValues = player.GetComponent<PlayerValues>();
         nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        hitTimer += Time.deltaTime;
         nav.SetDestination(player.position);
-        if (calculateDistance() <= 2)
+        if (!playerInRange)
         {
+            calculateTimer += Time.deltaTime;
+            if (calculateTimer >= 1.0f)
+            {
+                if (calculateDistance() <= 2)
+                {
+                    playerInRange = true;
+                }
+            }
+        }
+        else if (playerInRange && !canvasController.isGameOver)
+        {
+            hitTimer += Time.deltaTime;
             if (hitTimer >= 1.0)
             {
-                player.GetComponent<PlayerValues>().DecreaseHealth(10);
+                playerValues.DecreaseHealth((int) damage);
                 hitTimer = 0.0f;
             }
         }
+    }
+
+    public void SetEnemyValues(int health, float damage)
+    {
+        this.health = health;
+        this.damage = damage;
     }
 
     public void decreaseHealth(float value)
@@ -37,14 +60,13 @@ public class WeakEnemyAI : MonoBehaviour
         if (health <= 0)
         {
             Destroy(this.gameObject);
-            GameObject.Find("Player").GetComponent<PlayerValues>().UpdateCoinsValue(15);
-            GameObject.Find("Player").GetComponent<PlayerValues>().UpdateExperienceValue(20);
+            playerValues.UpdateCoinsValue(15);
+            playerValues.UpdateExperienceValue(25);
         }
     }
 
     private float calculateDistance()
     {
-        GameObject plejer = GameObject.Find("Player");
-        return Mathf.Sqrt(Mathf.Pow(this.transform.position.x - plejer.transform.position.x, 2) + Mathf.Pow(this.transform.position.z - plejer.transform.position.z, 2));
+        return Mathf.Sqrt(Mathf.Pow(this.transform.position.x - player.transform.position.x, 2) + Mathf.Pow(this.transform.position.z - player.transform.position.z, 2));
     }
 }

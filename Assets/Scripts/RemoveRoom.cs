@@ -15,8 +15,6 @@ public class RemoveRoom : MonoBehaviour {
 	void Update () {
 		if (player.transform.position.z >= transform.position.z + 23)
         {
-            //Debug.Log("NO JEST DALEJ");
-            //Debug.Log(player.transform.position.z);
             Destroy(this.gameObject);
         }
 	}

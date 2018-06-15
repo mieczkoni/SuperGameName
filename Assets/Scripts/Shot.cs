@@ -4,12 +4,37 @@ using UnityEngine;
 
 public class Shot : MonoBehaviour
 {
-    public float movementSpeed, range, damage;
+    public float movementSpeed, range, damage, timer;
+    private bool hit = false;
+    private PlayerValues playerValues;
+    private PlayerShooting playerShooting;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        playerValues = GameObject.Find("Player").GetComponent<PlayerValues>();
+        playerShooting = GameObject.Find("WeaponEnd").GetComponent<PlayerShooting>();
+        if (playerShooting.gunType == "Pistol" && playerValues.pistolCriticalShotChance >= 1)
+        {
+            float rand = Random.Range(0, 101);
+            if (rand <= playerValues.pistolCriticalShotChance)
+            {
+                damage += (damage * 2) + 123;
+            }
+        }
+        else if (playerShooting.gunType == "Minigun" && playerValues.minigunCriticalShotChance >= 1)
+        {
+            float rand = Random.Range(0, 101);
+            if (rand <= playerValues.pistolCriticalShotChance)
+            {
+                damage += (damage * 2) + 123;
+            }
+        }
+    }
+
     void Update()
     {
-        if (calculateDistance() >= range)
+        timer += Time.deltaTime;
+        if (timer >= range)
         {
             Destroy(this.gameObject);
         }
@@ -23,24 +48,23 @@ public class Shot : MonoBehaviour
         this.movementSpeed = movementSpeed;
     }
 
-    private float calculateDistance()
-    {
-        GameObject plejer = GameObject.Find("Player");
-        return Mathf.Sqrt(Mathf.Pow(this.transform.position.x - plejer.transform.position.x, 2) + Mathf.Pow(this.transform.position.z - plejer.transform.position.z, 2));
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (hit == false && other.gameObject.CompareTag("Enemy"))
         {
-            if (other.transform.name == "WeakEnemy")
+            hit = true;
+            if (other.gameObject.CompareTag("Enemy"))
             {
-                other.GetComponent<WeakEnemyAI>().decreaseHealth(damage);
-            } else if (other.transform.name == "MediumEnemy")
-            {
-                other.GetComponent<MediumEnemyAI>().decreaseHealth(damage);
+                if (other.transform.name == "WeakEnemy")
+                {
+                    other.GetComponent<WeakEnemyAI>().decreaseHealth(damage);
+                }
+                else if (other.transform.name == "MediumEnemy")
+                {
+                    other.GetComponent<MediumEnemyAI>().decreaseHealth(damage);
+                }
+                Destroy(this.gameObject);
             }
-            Destroy(this.gameObject);
         }
         else if (other.gameObject.CompareTag("Wall"))
         {

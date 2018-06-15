@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114402762833163612}
   - component: {fileID: 114832755190693210}
   - component: {fileID: 114255687404080652}
+  - component: {fileID: 114880089646418188}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -99,9 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc7ff1e6aadb9444ae1b9ade231815c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallObject: {fileID: 1930673013094606, guid: 3afda1233886fd04ea6de44df55f2d51, type: 2}
-  floorObject: {fileID: 1041551908270138, guid: 4aa67683488bb484fbd46827c45315fb,
-    type: 2}
+  wallPrefab: {fileID: 0}
+  floorPrefab: {fileID: 0}
 --- !u!114 &114255687404080652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,6 +128,7 @@ MonoBehaviour:
   playerExperience: 0
   playerSpeed: 0.05
   playerLevel: 0
+  skillPoints: 0
   playerWeapons:
   - Pistol
   - Minigun
@@ -136,6 +137,7 @@ MonoBehaviour:
   thirdWeapon: 
   weaponsOwned: 0100
   skillsOwned: 00
+  secondaryWeaponsOwned: 00
   pistolDamage: 100
   pistolShotRange: 20
   pistolBulletMovementSpeed: 40
@@ -164,6 +166,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy1: {fileID: 1649415020853244, guid: 0c79ff8962dc96744aa94190d739e0d9, type: 2}
   enemy2: {fileID: 1577468818235260, guid: e87f8dd0cfd874d4a900fb6f35ad9703, type: 2}
+--- !u!114 &114880089646418188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1681189643586418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ded55878da48be43bba0bb26594e132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 
+  granadePrefab: {fileID: 0}
 --- !u!135 &135580067312764496
 SphereCollider:
   m_ObjectHideFlags: 1

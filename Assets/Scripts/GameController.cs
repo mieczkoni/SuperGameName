@@ -8,23 +8,60 @@ public class GameController : MonoBehaviour {
     int actualDistanceWalked;
     float startGamePoint;
     private bool walking = false;
-    GameObject metersWalkedText, recordText;
+    GameObject recordText;
+    Text metersWalkedText;
 
-
-	// Use this for initialization
-	void Start () {
-        metersWalkedText = GameObject.Find("InGameCanvas/MetersWalked");
+    private int difficultyLevel = 0;
+    private float waitTimer = 0.0f;
+    private bool waiting = false;
+    private GameObject player;
+    private PlayerValues playerVal;
+    private SpawnEnemies spawnEnemies;
+    
+    void Start () {
+        difficultyLevel = PlayerPrefs.GetInt("difficultyLevel", 0);
+        player = GameObject.Find("Player");
+        playerVal = player.GetComponent<PlayerValues>();
+        spawnEnemies = player.GetComponent<SpawnEnemies>();
+        metersWalkedText = GameObject.Find("InGameCanvas/MetersWalked").GetComponent<Text>();
         recordText = GameObject.Find("StartCanvas/Record");
-	}
+        GameObject.Find("WeaponsCanvas/DifficultyLevel").GetComponent<Text>().text = difficultyLevel.ToString();
+    }
 	
-	// Update is called once per frame
 	void Update () {
         if (walking)
         {
             actualDistanceWalked = (int)(transform.position.z - startGamePoint) / 2;
-            metersWalkedText.GetComponent<Text>().text = actualDistanceWalked.ToString() + "m";
+            metersWalkedText.text = ((difficultyLevel * 100) + actualDistanceWalked).ToString() + "m";
+            if (actualDistanceWalked % 100 == 50)
+            {
+                GameLevelFinal();
+                walking = false;
+            }
+        }
+        if (waiting)
+        {
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= 4.0f)
+            {
+                waiting = false;
+                waitTimer = 0.0f;
+            }
         }
 	}
+
+    public void GameLevelFinal()
+    {
+        playerVal.playerSpeed = 0.0f;
+        spawnEnemies.gameLevel = difficultyLevel;
+        spawnEnemies.StopAndResetSpawning();
+        StartCoroutine(MyMethod());
+    }
+
+    public void InitNextLevel()
+    {
+        spawnEnemies.StartRandomSpawning();
+    }
 
     public void BeginCalculations()
     {
@@ -34,6 +71,8 @@ public class GameController : MonoBehaviour {
 
     public void PlayerDeath()
     {
+        PlayerPrefs.SetInt("difficultyLevel", difficultyLevel);
+        PlayerPrefs.Save();
         walking = false;
         UpdateRecord();
     }
@@ -41,11 +80,39 @@ public class GameController : MonoBehaviour {
     public void UpdateRecord()
     {
         int endResult = actualDistanceWalked;
-        if (endResult >= GetComponent<PlayerValues>().distanceRecord)
+        if (endResult >= playerVal.distanceRecord)
         {
-            GetComponent<PlayerValues>().UpdateValues("distanceRecord", endResult);
+            playerVal.UpdateValues("distanceRecord", endResult);
             recordText.GetComponent<Text>().text = "YOU ARE " + endResult.ToString() + "m CLOSER TO INFINITY!";
         }
     }
 
+    void SpawnObjects()
+    {
+        for (int i = 0; i <= 15; i++)
+        {
+            int rand = Random.Range(20, 27);
+            spawnEnemies.SpawnObject(0, rand);
+        }
+    }
+
+    IEnumerator MyMethod()
+    {
+        yield return new WaitForSeconds(5);
+        SpawnObjects();
+        yield return new WaitForSeconds(5);
+        SpawnObjects();
+        yield return new WaitForSeconds(5);
+        SpawnObjects();
+        yield return new WaitForSeconds(15);
+        spawnEnemies.gameLevel += 1;
+        InitNextLevel();
+        GameObject.Find("WeaponsCanvas/DifficultyLevel").GetComponent<Text>().text = difficultyLevel.ToString();
+    }
+
+    public void SaveGameControllerData()
+    {
+        PlayerPrefs.SetInt("difficultyLevel", 0);
+        PlayerPrefs.Save();
+    }
 }
