@@ -51,13 +51,13 @@ public class SpawnEnemies : MonoBehaviour {
     {
         if (x == 0)
         {
-            GameObject newEnemy = Instantiate(enemy1, new Vector3(Random.Range(-4.5f, 4.5f), 0.8f, transform.position.z + optZ), Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemy1, new Vector3(Random.Range(-4f, 4f), 0.8f, transform.position.z + optZ), Quaternion.identity);
             newEnemy.transform.name = "WeakEnemy";
             newEnemy.transform.Rotate(0, 180, 0);
             newEnemy.GetComponent<WeakEnemyAI>().SetEnemyValues(100 * (gameLevel + 1), 10 * (gameLevel +1));
         } else
         {
-            GameObject newEnemy = Instantiate(enemy1, new Vector3(Random.Range(-4.0f, 4.0f), 0.8f, transform.position.z + 30), Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemy1, new Vector3(Random.Range(-4f, 4f), 0.8f, transform.position.z + 30), Quaternion.identity);
             newEnemy.transform.name = "WeakEnemy";
             newEnemy.transform.Rotate(0, 180, 0);
             newEnemy.GetComponent<WeakEnemyAI>().SetEnemyValues(100 * (gameLevel + 1), 10 * (gameLevel + 1));

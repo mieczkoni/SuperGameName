@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wallPrefab: {fileID: 0}
   floorPrefab: {fileID: 0}
+  krawPrefab: {fileID: 0}
 --- !u!114 &114255687404080652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,18 +127,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 100
   playerExperience: 0
+  actualPlayerHealth: 0
   playerSpeed: 0.05
   playerLevel: 0
   skillPoints: 0
-  playerWeapons:
-  - Pistol
-  - Minigun
-  mainWeapon: Pistol
-  secondWeapon: 
-  thirdWeapon: 
-  weaponsOwned: 0100
-  skillsOwned: 00
-  secondaryWeaponsOwned: 00
+  pistolOwned: 1
+  minigunOwned: 0
+  shieldOwned: 0
+  granadeOwned: 0
   pistolDamage: 100
   pistolShotRange: 20
   pistolBulletMovementSpeed: 40
@@ -150,7 +147,7 @@ MonoBehaviour:
   minigunBulletsPerSecond: 5
   shieldTime: 0
   granadeDamage: 0
-  granadeThrowRange: 0
+  granadeRange: 0
   playerCoins: 200
   distanceRecord: 0
 --- !u!114 &114832755190693210
@@ -164,8 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab131e78f3922240a254d30550f7763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy1: {fileID: 1649415020853244, guid: 0c79ff8962dc96744aa94190d739e0d9, type: 2}
+  enemy1: {fileID: 1374517537069536, guid: c6535278ab7fe5e419a2bd06a7a9c290, type: 2}
   enemy2: {fileID: 1577468818235260, guid: e87f8dd0cfd874d4a900fb6f35ad9703, type: 2}
+  spawnTime: 1
+  gameLevel: 0
 --- !u!114 &114880089646418188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 
   granadePrefab: {fileID: 0}
+  secondaryWeaponFill: {fileID: 0}
 --- !u!135 &135580067312764496
 SphereCollider:
   m_ObjectHideFlags: 1

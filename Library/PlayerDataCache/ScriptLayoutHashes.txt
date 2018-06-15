@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-C:/Users/Marianek/Dysk Google/!SZERE/superGameName_0.7a.apk
+C:/Users/Marianek/Dysk Google/!SZERE/superGameName_0.7b.apk
 SceneListBegin?
 Assets/_Scenes/SampleScene.unity
 SceneListEnd?
@@ -21,7 +21,7 @@ ff05dcdf90651c3d98a9cad3df5e471e UnityEngine.Timeline.dll:UnityEngine.Timeline.C
 607d64d2c4bc76ac9876e6f7b9cc7edf UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 62f4e803247774277263cc3434718a62 Assembly-CSharp.dll:UnityEngine.AI.NavMeshModifier
 a71e89494a00540356e3247bc0ed0342 Assembly-CSharp.dll:UnityEngine.AI.NavMeshLink
-05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.GameController
+102ac3b04898a850d98945d92568a51c Assembly-CSharp.dll:.GameController
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
 49cd62a578efc0a599b810a2b66cd49c UnityEngine.UI.dll:UnityEngine.UI.Button
@@ -245,7 +245,8 @@ c2275a8bfbb9f9942cad75ecdfded41d UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 75cd0c6c744b9733ef29aa6c59ece2b1 Assembly-CSharp.dll:TMPro.Examples.VertexShakeB
 6826e26f7cc718f870001971f13e79c7 Assembly-CSharp.dll:TMPro.TMP_TextEventHandler
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:TMPro.Examples.VertexColorCycler
-950e2d1480e4541563e5ffe1936932b1 Assembly-CSharp.dll:.SpawnNewRoom
+0becfd087d006b6e13ba3bb8c6f6437a Assembly-CSharp.dll:.SpawnNewRoom
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.Walking
 020550babdb991365f61c5bffe1f4f52 Assembly-CSharp.dll:TMPro.Examples.TextMeshSpawner
 a69b3ee0402770d02d1c122324e4b00e Assembly-CSharp.dll:TMPro.Examples.SkewTextExample
 34e025057ef78b1bf238460cdf6583a3 Assembly-CSharp.dll:TMPro.Examples.ObjectSpin

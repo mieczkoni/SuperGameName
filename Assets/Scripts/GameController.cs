@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
     int actualDistanceWalked;
     float startGamePoint;
     private bool walking = false;
+    public bool alive = true;
     GameObject recordText;
     Text metersWalkedText;
 
@@ -32,7 +33,7 @@ public class GameController : MonoBehaviour {
         if (walking)
         {
             actualDistanceWalked = (int)(transform.position.z - startGamePoint) / 2;
-            metersWalkedText.text = ((difficultyLevel * 100) + actualDistanceWalked).ToString() + "m";
+            metersWalkedText.text = ((difficultyLevel * 50) + actualDistanceWalked).ToString() + "m";
             if (actualDistanceWalked % 100 == 50)
             {
                 GameLevelFinal();
@@ -52,19 +53,24 @@ public class GameController : MonoBehaviour {
 
     public void GameLevelFinal()
     {
+        alive = true;
         playerVal.playerSpeed = 0.0f;
         spawnEnemies.gameLevel = difficultyLevel;
         spawnEnemies.StopAndResetSpawning();
-        StartCoroutine(MyMethod());
+        StartCoroutine(SpawnAction());
     }
 
     public void InitNextLevel()
     {
+        playerVal.playerSpeed = 0.05f;
         spawnEnemies.StartRandomSpawning();
+        difficultyLevel += 1;
+        GameObject.Find("WeaponsCanvas/DifficultyLevel").GetComponent<Text>().text = difficultyLevel.ToString();
     }
 
     public void BeginCalculations()
     {
+        alive = true;
         walking = true;
         startGamePoint = transform.position.z;
     }
@@ -74,12 +80,13 @@ public class GameController : MonoBehaviour {
         PlayerPrefs.SetInt("difficultyLevel", difficultyLevel);
         PlayerPrefs.Save();
         walking = false;
+        alive = false;
         UpdateRecord();
     }
 
     public void UpdateRecord()
     {
-        int endResult = actualDistanceWalked;
+        int endResult = ((difficultyLevel * 50) + actualDistanceWalked);
         if (endResult >= playerVal.distanceRecord)
         {
             playerVal.UpdateValues("distanceRecord", endResult);
@@ -96,18 +103,70 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    IEnumerator SpawnAction()
+    {
+        const float secToIncrement = 5f; //When to Increment (Every 1 second)
+        float counter = 0;
+        int howManyTimesDone = 0;
+
+        while (true)
+        {
+            //Check if we have reached counter
+            if (counter > secToIncrement)
+            {
+                counter = 0f; //Reset Counter
+                SpawnObjects();
+                howManyTimesDone += 1;
+            }
+            counter += Time.deltaTime;
+
+            //Check if we want to exit coroutine
+            if (!alive || howManyTimesDone == 3)
+            {
+                InitNextLevel();
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
     IEnumerator MyMethod()
     {
-        yield return new WaitForSeconds(5);
-        SpawnObjects();
-        yield return new WaitForSeconds(5);
-        SpawnObjects();
-        yield return new WaitForSeconds(5);
-        SpawnObjects();
-        yield return new WaitForSeconds(15);
-        spawnEnemies.gameLevel += 1;
-        InitNextLevel();
-        GameObject.Find("WeaponsCanvas/DifficultyLevel").GetComponent<Text>().text = difficultyLevel.ToString();
+        if (alive)
+        {
+            yield return new WaitForSeconds(5);
+            SpawnObjects();
+        } else
+        {
+            yield break;
+        }
+        if (alive) {
+            yield return new WaitForSeconds(5);
+            SpawnObjects();
+        }
+        else
+        {
+            yield break;
+        }
+        if (alive)
+        {
+            yield return new WaitForSeconds(5);
+            SpawnObjects();
+        }
+        else
+        {
+            yield break;
+        }
+        if (alive)
+        {
+            yield return new WaitForSeconds(8);
+            spawnEnemies.gameLevel += 1;
+            InitNextLevel();
+        }
+        else
+        {
+            yield break;
+        }
     }
 
     public void SaveGameControllerData()

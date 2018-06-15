@@ -286,7 +286,8 @@ public class PlayerValues : MonoBehaviour {
         pistolDamage = PlayerPrefs.GetInt("pistolDamage", 50);
         minigunDamage = PlayerPrefs.GetInt("minigunDamage", 50);
         granadeDamage = PlayerPrefs.GetInt("granadeDamage", 100);
-        playerCoins = PlayerPrefs.GetInt("playerCoins", 10000);
+        playerCoins = 100000;
+        //ayerCoins = PlayerPrefs.GetInt("playerCoins", 100000);
         distanceRecord = PlayerPrefs.GetInt("distanceRecord");
 
         pistolOwned = GetBool("pistolOwned", true);
